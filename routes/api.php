@@ -15,7 +15,13 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 });
 
 Route::group(['middleware' => 'jwt.auth', 'prefix' => 'products'], function ($router) {
-    Route::get('/get', [ProductController::class, 'get']);
+    Route::get('/getProducts', [ProductController::class, 'getProducts']);
+    Route::get('/getByPrice', [ProductController::class, 'getByPrice']);
+    Route::get('/getCategories', [ProductController::class, 'getCategories']);
+    Route::get('/getBrands', [ProductController::class, 'getBrands']);
+
+
+    Route::post('/getProductsByPrice', [ProductController::class, 'getProductsByPrice']);
     Route::post('/create', [ProductController::class, 'create']);
     Route::post('/update', [ProductController::class, 'update']);
     Route::post('/delete', [ProductController::class, 'delete']);
