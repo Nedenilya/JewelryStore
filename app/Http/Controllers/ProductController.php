@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
-use App\Models\Category;
+use App\Models\ProductCategory;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -32,7 +32,7 @@ class ProductController extends Controller
 
     function getCategories(): JsonResponse
     {
-        $categories = Category::where('is_active', 1)
+        $categories = ProductCategory::where('is_active', 1)
             ->withCount('products')
             ->get()
             ->toArray();

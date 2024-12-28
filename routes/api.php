@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,11 +21,15 @@ Route::group(['middleware' => 'jwt.auth', 'prefix' => 'products'], function ($ro
     Route::get('/getCategories', [ProductController::class, 'getCategories']);
     Route::get('/getBrands', [ProductController::class, 'getBrands']);
 
-
     Route::post('/getProductsByPrice', [ProductController::class, 'getProductsByPrice']);
-    Route::post('/create', [ProductController::class, 'create']);
-    Route::post('/update', [ProductController::class, 'update']);
-    Route::post('/delete', [ProductController::class, 'delete']);
+//    Route::post('/create', [ProductController::class, 'create']);
+//    Route::post('/update', [ProductController::class, 'update']);
+//    Route::post('/delete', [ProductController::class, 'delete']);
+});
+
+Route::group(['middleware' => 'jwt.auth', 'prefix' => 'blog'], function ($router) {
+    Route::get('/getPosts', [BlogController::class, 'getPosts']);
+    Route::get('/getCategories', [BlogController::class, 'getCategories']);
 });
 
 Route::group(['middleware' => 'jwt.auth', 'prefix' => 'cart'], function ($router) {
