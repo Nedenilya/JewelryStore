@@ -30,6 +30,8 @@ Route::group(['middleware' => 'jwt.auth', 'prefix' => 'products'], function ($ro
 Route::group(['middleware' => 'jwt.auth', 'prefix' => 'blog'], function ($router) {
     Route::get('/getPosts', [BlogController::class, 'getPosts']);
     Route::get('/getCategories', [BlogController::class, 'getCategories']);
+
+    Route::post('/likePost', [BlogController::class, 'likePost']);
 });
 
 Route::group(['middleware' => 'jwt.auth', 'prefix' => 'cart'], function ($router) {

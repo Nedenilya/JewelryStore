@@ -11,4 +11,8 @@ class Post extends Model
     protected $fillable = [
         'title', 'description', 'image', 'user_id', 'category_id'
     ];
+
+    public function post_likes() {
+        return $this->hasMany(PostLikes::class);
+    }
 }
