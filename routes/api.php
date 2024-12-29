@@ -22,6 +22,7 @@ Route::group(['middleware' => 'jwt.auth', 'prefix' => 'products'], function ($ro
     Route::get('/getBrands', [ProductController::class, 'getBrands']);
 
     Route::post('/getProductsByPrice', [ProductController::class, 'getProductsByPrice']);
+    Route::post('/likeProduct', [ProductController::class, 'likeProduct']);
 //    Route::post('/create', [ProductController::class, 'create']);
 //    Route::post('/update', [ProductController::class, 'update']);
 //    Route::post('/delete', [ProductController::class, 'delete']);
