@@ -19,15 +19,22 @@ class RegisterController extends Controller
             'password' => 'required'
         ]);
 
+        $credentials = request(['email', 'password']);
+
         try {
             $user = new User();
-            $user->email = $request->email;
-            $user->password = Hash::make($request->password);
+            $user->email = $credentials['email'];
+            $user->password = Hash::make($credentials['password']);
             $user->save();
+
+            if (! $token = auth()->attempt($credentials)) {
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
 
             $response = [
                 'success' => true,
                 'message' => "Customer register successfully",
+                'token' => $token,
                 'user' => $user,
             ];
         } catch (QueryException $ex) {
