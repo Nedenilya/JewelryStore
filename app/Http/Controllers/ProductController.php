@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
+use App\Models\Cart;
 use App\Models\ProductCategory;
 use App\Models\Product;
 use App\Models\ProductLikes;
@@ -29,7 +30,7 @@ class ProductController extends Controller
 
     function getProductsByPrice(Request $request): JsonResponse
     {
-        if($request->filter['from'] === '' && $request->filter['to'] === '')
+        if ($request->filter['from'] === '' && $request->filter['to'] === '')
             return $this->getProducts();
 
         $products = Product::where('is_active', 1)
@@ -57,6 +58,36 @@ class ProductController extends Controller
         return response()->json($brands);
     }
 
+    function addToCart(Request $request)
+    {
+        $request->validate([
+            'productId' => 'required|integer|exists:products,id',
+            'userId' => 'required|integer|exists:users,id',
+        ]);
+
+        $cartItem = Cart::where('user_id', $request->userId)
+            ->where('product_id', $request->productId)
+            ->first();
+
+        if($cartItem){
+            $cartItem->quantity += 1;
+            $cartItem->save();
+        }else{
+            $cartItem = Cart::create([
+                'user_id' => $request->userId,
+                'product_id' => $request->productId,
+                'quantity' => 1,
+            ]);
+            $cartItem->save();
+        }
+
+        $items = Cart::where('user_id', $request->userId)->get()->toArray();
+
+        return response()->json([
+            'cartItemsCount' => count($items)
+        ]);
+    }
+
     function likeProduct(Request $request): JsonResponse
     {
         $request->validate([
@@ -67,14 +98,14 @@ class ProductController extends Controller
         $productLike = ProductLikes::where('product_id', $request->productId)
             ->where('user_id', $request->userId)->first();
 
-        if(!$productLike){
+        if (!$productLike) {
             $productLike = ProductLikes::create([
                 'user_id' => $request->userId,
                 'product_id' => $request->productId
             ]);
             $productLike->save();
             $message = 'liked';
-        }else{
+        } else {
             $productLike->delete();
             $message = 'unliked';
         }

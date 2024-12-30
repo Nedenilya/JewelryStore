@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,7 @@ Route::group(['middleware' => 'jwt.auth', 'prefix' => 'products'], function ($ro
 
     Route::post('/getProductsByPrice', [ProductController::class, 'getProductsByPrice']);
     Route::post('/likeProduct', [ProductController::class, 'likeProduct']);
+    Route::post('/addToCart', [ProductController::class, 'addToCart']);
 //    Route::post('/create', [ProductController::class, 'create']);
 //    Route::post('/update', [ProductController::class, 'update']);
 //    Route::post('/delete', [ProductController::class, 'delete']);
@@ -36,7 +38,7 @@ Route::group(['middleware' => 'jwt.auth', 'prefix' => 'blog'], function ($router
 });
 
 Route::group(['middleware' => 'jwt.auth', 'prefix' => 'cart'], function ($router) {
-//    Route::get('/get', [CartController::class, 'get']);
+    Route::get('/getCart', [CartController::class, 'getCart']);
 });
 
 

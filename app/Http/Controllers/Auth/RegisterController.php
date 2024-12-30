@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\RegisterEmail;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
 {
@@ -45,6 +47,13 @@ class RegisterController extends Controller
         }
 
         Auth::setUser($user);
+
+        $details = [
+            'title' => 'Welcome to Our Platform',
+            'body' => 'Thank you for registering with us. We are excited to have you on board!'
+        ];
+
+        Mail::to('nedenil27@gmail.com')->send(new RegisterEmail($details));
 
         return response()->json($response);
     }
