@@ -11,4 +11,8 @@ class Product extends Model
     protected $fillable = [
         'name', 'description', 'price', 'category_id', 'image', 'is_best_offer'
     ];
+
+    public function product_likes() {
+        return $this->hasMany(ProductLikes::class);
+    }
 }
