@@ -28,6 +28,21 @@ class ProductController extends Controller
         return response()->json($products);
     }
 
+    function getProductById(Request $request): JsonResponse
+    {
+        $request->validate([
+            'productId' => 'required|integer'
+        ]);
+
+        $product = Product::where('products.is_active', 1)
+            ->where('products.id', $request->productId)
+            ->leftJoin('products_categories as pc', 'products.product_category_id', '=', 'pc.id')
+            ->first(['products.*', 'pc.name as category'])
+            ->toArray();
+
+        return response()->json($product);
+    }
+
     function getProductsByPrice(Request $request): JsonResponse
     {
         if ($request->filter['from'] === '' && $request->filter['to'] === '')

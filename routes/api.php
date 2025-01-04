@@ -16,7 +16,8 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::post('/register', [RegisterController::class, 'register']);
 });
 
-Route::group(['middleware' => 'jwt.auth', 'prefix' => 'products'], function ($router) {
+Route::group(['middleware' => 'api'/*'jwt.auth'*/, 'prefix' => 'products'], function ($router) {
+    Route::get('/getProductById', [ProductController::class, 'getProductById']);
     Route::get('/getProducts', [ProductController::class, 'getProducts']);
     Route::get('/getByPrice', [ProductController::class, 'getByPrice']);
     Route::get('/getCategories', [ProductController::class, 'getCategories']);
@@ -30,14 +31,14 @@ Route::group(['middleware' => 'jwt.auth', 'prefix' => 'products'], function ($ro
 //    Route::post('/delete', [ProductController::class, 'delete']);
 });
 
-Route::group(['middleware' => 'jwt.auth', 'prefix' => 'blog'], function ($router) {
+Route::group(['middleware' => 'api'/*'jwt.auth'*/, 'prefix' => 'blog'], function ($router) {
     Route::get('/getPosts', [BlogController::class, 'getPosts']);
     Route::get('/getCategories', [BlogController::class, 'getCategories']);
 
     Route::post('/likePost', [BlogController::class, 'likePost']);
 });
 
-Route::group(['middleware' => 'jwt.auth', 'prefix' => 'cart'], function ($router) {
+Route::group(['middleware' => 'api'/*'jwt.auth'*/, 'prefix' => 'cart'], function ($router) {
     Route::get('/getCart', [CartController::class, 'getCart']);
 });
 
