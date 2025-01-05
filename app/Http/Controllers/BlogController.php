@@ -21,7 +21,7 @@ class BlogController extends Controller
             }])
             ->get()
             ->map(function ($post) use ($userId) {
-                $post->liked = isset($post->post_likes[0]['user_id']);
+                $post->liked = isset($post->post_likes[0]['user_id']) && $post->post_likes[0]['user_id'] == $userId;
                 return $post;
             })
             ->toArray();
@@ -37,6 +37,26 @@ class BlogController extends Controller
             ->toArray();
 
         return response()->json($categories);
+    }
+
+    function getLastNews(Request $request): JsonResponse
+    {
+        $userId = $request->userId ?? 0;
+
+        $posts = Post::where('is_active', 1)
+            ->with(['post_likes' => function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            }])
+            ->orderBy('created_at', 'desc')
+            ->limit(3)
+            ->get()
+            ->map(function ($post) use ($userId) {
+                $post->liked = isset($post->post_likes[0]['user_id']) && $post->post_likes[0]['user_id'] == $userId;
+                return $post;
+            })
+            ->toArray();
+
+        return response()->json($posts);
     }
 
     function likePost(Request $request): JsonResponse

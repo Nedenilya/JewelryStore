@@ -22,6 +22,7 @@ Route::group(['middleware' => 'api'/*'jwt.auth'*/, 'prefix' => 'products'], func
     Route::get('/getByPrice', [ProductController::class, 'getByPrice']);
     Route::get('/getCategories', [ProductController::class, 'getCategories']);
     Route::get('/getBrands', [ProductController::class, 'getBrands']);
+    Route::get('/getBestOffers', [ProductController::class, 'getBestOffers']);
 
     Route::post('/getProductsByPrice', [ProductController::class, 'getProductsByPrice']);
     Route::post('/likeProduct', [ProductController::class, 'likeProduct']);
@@ -34,6 +35,7 @@ Route::group(['middleware' => 'api'/*'jwt.auth'*/, 'prefix' => 'products'], func
 Route::group(['middleware' => 'api'/*'jwt.auth'*/, 'prefix' => 'blog'], function ($router) {
     Route::get('/getPosts', [BlogController::class, 'getPosts']);
     Route::get('/getCategories', [BlogController::class, 'getCategories']);
+    Route::get('/getLastNews', [BlogController::class, 'getLastNews']);
 
     Route::post('/likePost', [BlogController::class, 'likePost']);
 });

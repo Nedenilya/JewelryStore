@@ -12,7 +12,7 @@ use Illuminate\Http\JsonResponse;
 
 class ProductController extends Controller
 {
-    function getProducts(): JsonResponse
+    function getProducts(Request $request): JsonResponse
     {
         $userId = $request->userId ?? 0;
 
@@ -20,7 +20,7 @@ class ProductController extends Controller
             ->with('product_likes')
             ->get()
             ->map(function ($product) use ($userId) {
-                $product->liked = isset($product->product_likes[0]['user_id']);
+                $product->liked = isset($product->product_likes[0]['user_id']) && $product->product_likes[0]['user_id'] == $userId;
                 return $product;
             })
             ->toArray();
@@ -46,11 +46,29 @@ class ProductController extends Controller
     function getProductsByPrice(Request $request): JsonResponse
     {
         if ($request->filter['from'] === '' && $request->filter['to'] === '')
-            return $this->getProducts();
+            return $this->getProducts($request);
 
         $products = Product::where('is_active', 1)
             ->whereBetween('price', [$request->filter['from'], $request->filter['to']])
             ->get()
+            ->toArray();
+
+        return response()->json($products);
+    }
+
+    function getBestOffers(Request $request): JsonResponse
+    {
+        $userId = $request->userId ?? 0;
+
+        $products = Product::where('is_active', 1)
+            ->where('is_best_offer', 1)
+            ->with('product_likes')
+            ->limit(4)
+            ->get()
+            ->map(function ($product) use ($userId) {
+                $product->liked = isset($product->product_likes[0]['user_id']) && $product->product_likes[0]['user_id'] == $userId;
+                return $product;
+            })
             ->toArray();
 
         return response()->json($products);

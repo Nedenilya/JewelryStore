@@ -53,7 +53,7 @@ class RegisterController extends Controller
             'body' => 'Thank you for registering with us. We are excited to have you on board!'
         ];
 
-        Mail::to('nedenil27@gmail.com')->send(new RegisterEmail($details));
+        Mail::to($user->email)->send(new RegisterEmail($details));
 
         return response()->json($response);
     }
