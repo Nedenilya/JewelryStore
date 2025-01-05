@@ -34,6 +34,7 @@ Route::group(['middleware' => 'api'/*'jwt.auth'*/, 'prefix' => 'products'], func
 
 Route::group(['middleware' => 'api'/*'jwt.auth'*/, 'prefix' => 'blog'], function ($router) {
     Route::get('/getPosts', [BlogController::class, 'getPosts']);
+    Route::get('/getPostById', [BlogController::class, 'getPostById']);
     Route::get('/getCategories', [BlogController::class, 'getCategories']);
     Route::get('/getLastNews', [BlogController::class, 'getLastNews']);
 

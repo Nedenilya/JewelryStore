@@ -29,6 +29,31 @@ class BlogController extends Controller
         return response()->json($posts);
     }
 
+    function getPostById(Request $request): JsonResponse
+    {
+        $request->validate([
+            'postId' => 'required|integer'
+        ]);
+        $postId = $request->postId;
+        $previousPostId = Post::where('id', '<', $request->postId)
+            ->orderBy('id', 'desc')
+            ->first(['id']);
+
+        $post = Post::where('id', $request->postId)
+            ->first()
+            ->toArray();
+
+        $nextPostId = Post::where('id', '>', $request->postId)
+            ->orderBy('id', 'asc')
+            ->first(['id']);
+
+        return response()->json([
+            'post' => $post,
+            'prevPostId' => $previousPostId['id'] ?? null,
+            'nextPostId' => $nextPostId['id'] ?? null,
+        ]);
+    }
+
     function getCategories(): JsonResponse
     {
         $categories = PostCategory::where('is_active', 1)
