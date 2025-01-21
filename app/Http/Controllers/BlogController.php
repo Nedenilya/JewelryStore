@@ -7,6 +7,7 @@ use App\Models\PostCategory;
 use App\Models\PostLikes;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class BlogController extends Controller
 {
@@ -27,6 +28,19 @@ class BlogController extends Controller
             ->toArray();
 
         return response()->json($posts);
+    }
+
+    function getResentPosts(): JsonResponse
+    {
+        $posts = Post::where('is_active', 1)
+            ->orderBy('created_at','desc')
+            ->limit(3)
+            ->get()
+            ->toArray();
+
+        return response()->json([
+            'recentPosts' => $posts
+        ]);
     }
 
     function getPostById(Request $request): JsonResponse

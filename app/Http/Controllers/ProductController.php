@@ -18,6 +18,9 @@ class ProductController extends Controller
 
         $products = Product::where('is_active', 1)
             ->with('product_likes')
+            ->when(!is_null($request->collection), function ($query) use ($request) {
+                return $query->where('collection_id', $request->collection);
+            })
             ->get()
             ->map(function ($product) use ($userId) {
                 $product->liked = isset($product->product_likes[0]['user_id']) && $product->product_likes[0]['user_id'] == $userId;

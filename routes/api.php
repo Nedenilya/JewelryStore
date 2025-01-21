@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
@@ -14,6 +15,10 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::get('me', [AuthController::class, 'me']);
     Route::post('/register', [RegisterController::class, 'register']);
+});
+
+Route::group(['middleware' => 'api'/*'jwt.auth'*/, 'prefix' => 'shop'], function ($router) {
+    Route::get('/getCollectionName', [ShopController::class, 'getCollectionName']);
 });
 
 Route::group(['middleware' => 'api'/*'jwt.auth'*/, 'prefix' => 'products'], function ($router) {
@@ -34,6 +39,7 @@ Route::group(['middleware' => 'api'/*'jwt.auth'*/, 'prefix' => 'products'], func
 
 Route::group(['middleware' => 'api'/*'jwt.auth'*/, 'prefix' => 'blog'], function ($router) {
     Route::get('/getPosts', [BlogController::class, 'getPosts']);
+    Route::get('/getResentPosts', [BlogController::class, 'getResentPosts']);
     Route::get('/getPostById', [BlogController::class, 'getPostById']);
     Route::get('/getCategories', [BlogController::class, 'getCategories']);
     Route::get('/getLastNews', [BlogController::class, 'getLastNews']);
@@ -43,6 +49,7 @@ Route::group(['middleware' => 'api'/*'jwt.auth'*/, 'prefix' => 'blog'], function
 
 Route::group(['middleware' => 'api'/*'jwt.auth'*/, 'prefix' => 'cart'], function ($router) {
     Route::get('/getCart', [CartController::class, 'getCart']);
+    Route::post('/deleteCartItem', [CartController::class, 'deleteCartItem']);
 });
 
 
