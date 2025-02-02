@@ -66,7 +66,7 @@ class ProductController extends Controller
         $products = Product::where('is_active', 1)
             ->where('is_best_offer', 1)
             ->with('product_likes')
-            ->limit(4)
+            ->limit(16)
             ->get()
             ->map(function ($product) use ($userId) {
                 $product->liked = isset($product->product_likes[0]['user_id']) && $product->product_likes[0]['user_id'] == $userId;
