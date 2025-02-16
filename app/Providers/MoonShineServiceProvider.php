@@ -12,6 +12,9 @@ use MoonShine\Laravel\DependencyInjection\MoonShineConfigurator;
 use App\MoonShine\Resources\MoonShineUserResource;
 use App\MoonShine\Resources\MoonShineUserRoleResource;
 use App\MoonShine\Resources\ProductsResource;
+use App\MoonShine\Resources\ProductsCategoriesResource;
+use App\MoonShine\Resources\PostResource;
+use App\MoonShine\Resources\PostsCategoriesResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -29,6 +32,9 @@ class MoonShineServiceProvider extends ServiceProvider
                 MoonShineUserResource::class,
                 MoonShineUserRoleResource::class,
                 ProductsResource::class,
+                ProductsCategoriesResource::class,
+                PostResource::class,
+                PostsCategoriesResource::class,
             ])
             ->pages([
                 ...$config->getPages(),

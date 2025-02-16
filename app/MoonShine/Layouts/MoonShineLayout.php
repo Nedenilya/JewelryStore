@@ -32,6 +32,9 @@ use MoonShine\UI\Components\{Breadcrumbs,
     When};
 use App\MoonShine\Resources\ProductsResource;
 use MoonShine\MenuManager\MenuItem;
+use App\MoonShine\Resources\ProductsCategoriesResource;
+use App\MoonShine\Resources\PostResource;
+use App\MoonShine\Resources\PostsCategoriesResource;
 
 final class MoonShineLayout extends AppLayout
 {
@@ -46,7 +49,10 @@ final class MoonShineLayout extends AppLayout
     {
         return [
             ...parent::menu(),
-            MenuItem::make('Products', ProductsResource::class),
+            MenuItem::make('Товары', ProductsResource::class),
+            MenuItem::make('Категории товаров', ProductsCategoriesResource::class),
+            MenuItem::make('Посты', PostResource::class),
+            MenuItem::make('Категории постов', PostsCategoriesResource::class),
         ];
     }
 
